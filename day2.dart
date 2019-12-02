@@ -9,17 +9,17 @@ int run(p1, p2, input) {
   input[1] = p1;
   input[2] = p2;
 
-  while(opcode != 99) {
+  while (opcode != 99) {
     opcode = input[pos];
 
     int a = input[pos + 1];
     int b = input[pos + 2];
     int o = input[pos + 3];
-    
+
     if (opcode == 1) {
       input[o] = input[a] + input[b];
     }
-    
+
     if (opcode == 2) {
       input[o] = input[a] * input[b];
     }
@@ -29,14 +29,12 @@ int run(p1, p2, input) {
     if (pos > input.length) {
       return -1;
     }
-    
+
     opcode = input[pos];
   }
 
   return input[0];
 }
-
-
 
 void main() async {
   var input = new List<int>();
@@ -44,7 +42,7 @@ void main() async {
   String raw = await File('day2.input').readAsString();
 
   raw.split(",").forEach((String l) {
-      input.add(int.parse(l));
+    input.add(int.parse(l));
   });
 
   int p1 = run(12, 2, List.from(input));

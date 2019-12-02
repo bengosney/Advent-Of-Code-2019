@@ -16,23 +16,23 @@ void main() async {
   var input = new List<int>();
 
   await File('day1.input')
-  .openRead()
-  .transform(utf8.decoder)
-  .transform(new LineSplitter())
-  .forEach((String l) {
-      input.add(int.parse(l));
+      .openRead()
+      .transform(utf8.decoder)
+      .transform(new LineSplitter())
+      .forEach((String l) {
+    input.add(int.parse(l));
   });
 
   int total1 = 0;
   input.forEach((int n) {
-      total1 += (n/3).floor() - 2;
+    total1 += (n / 3).floor() - 2;
   });
 
   print("Part 1: $total1");
 
   int total2 = 0;
   input.forEach((int n) {
-      total2 += fuelReq(n);
+    total2 += fuelReq(n);
   });
 
   print("Part 2: $total2");
