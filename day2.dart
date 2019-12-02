@@ -2,21 +2,12 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 
-
-void main() async {
-  var input = new List<int>();
-
-  String raw = await File('day2.input').readAsString();
-
-  raw.split(",").forEach((String l) {
-      input.add(int.parse(l));
-  });
-
+int run(p1, p2, input) {
   int opcode = 0;
   int pos = 0;
 
-  input[1] = 12;
-  input[2] = 2;
+  input[1] = p1;
+  input[2] = p2;
 
   while(opcode != 99) {
     opcode = input[pos];
@@ -34,9 +25,40 @@ void main() async {
     }
 
     pos += 4;
+
+    if (pos > input.length) {
+      return -1;
+    }
     
     opcode = input[pos];
   }
 
-  print("Part 1: ${input[0]}");
+  return input[0];
+}
+
+
+
+void main() async {
+  var input = new List<int>();
+
+  String raw = await File('day2.input').readAsString();
+
+  raw.split(",").forEach((String l) {
+      input.add(int.parse(l));
+  });
+
+  int p1 = run(12, 2, List.from(input));
+
+  print("Part 1: $p1");
+
+  for (int x = 0; x < 100; x++) {
+    for (int y = 0; y < 100; y++) {
+      int p2 = run(x, y, List.from(input));
+      if (p2 == 19690720) {
+        int ans = 100 * x + y;
+        print("Part 2: $ans");
+        break;
+      }
+    }
+  }
 }
