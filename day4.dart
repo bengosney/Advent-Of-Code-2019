@@ -5,7 +5,7 @@ import 'dart:math';
 
 bool hasConsec(String code) {
   RegExp regExp = new RegExp(r"(\d)\1");
-  
+
   return regExp.hasMatch(code);
 }
 
@@ -13,19 +13,16 @@ bool hasConsec2(String code) {
   RegExp regExp = new RegExp(r"(\d)\1+");
   bool ret = false;
 
-  regExp.allMatches(code).forEach((m) {
-      if (m[0].length == 2) {
-        ret = true;
-      }
-  });
-  
-  return ret;
+  return regExp
+      .allMatches(code)
+      .map((m) => m[0].length == 2)
+      .reduce((curr, next) => curr || next);
 }
 
 bool doesIncrease(String code) {
   int prev = 0;
-  
-  for(int i=0; i < code.length; i++) {
+
+  for (int i = 0; i < code.length; i++) {
     int cur = int.parse(code[i]);
 
     if (cur < prev) {
@@ -39,13 +36,13 @@ bool doesIncrease(String code) {
 
 void main() async {
   int l = 387638;
-  int u = 919123;  
- 
+  int u = 919123;
+
   int poss1 = 0;
   int poss2 = 0;
   String code;
-  
-  for (int i = l ; i <= u ; i++) {
+
+  for (int i = l; i <= u; i++) {
     code = "${i}";
     if (hasConsec(code) && doesIncrease(code)) {
       poss1 += 1;
