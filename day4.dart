@@ -3,14 +3,23 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:math';
 
-bool isLength(String code) {
-  return code.length == 6;
-}
-
 bool hasConsec(String code) {
   RegExp regExp = new RegExp(r"(\d)\1");
   
   return regExp.hasMatch(code);
+}
+
+bool hasConsec2(String code) {
+  RegExp regExp = new RegExp(r"(\d)\1+");
+  bool ret = false;
+
+  regExp.allMatches(code).forEach((m) {
+      if (m[0].length == 2) {
+        ret = true;
+      }
+  });
+  
+  return ret;
 }
 
 bool doesIncrease(String code) {
@@ -32,15 +41,20 @@ void main() async {
   int l = 387638;
   int u = 919123;  
  
-  int pos = 0;
+  int poss1 = 0;
+  int poss2 = 0;
   String code;
   
   for (int i = l ; i <= u ; i++) {
     code = "${i}";
     if (hasConsec(code) && doesIncrease(code)) {
-      pos += 1;
+      poss1 += 1;
+      if (hasConsec2(code)) {
+        poss2 += 1;
+      }
     }
   }
 
-  print("Part 1: $pos");
+  print("Part 1: $poss1");
+  print("Part 2: $poss2");
 }
