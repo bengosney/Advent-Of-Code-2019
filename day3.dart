@@ -7,20 +7,20 @@ Map getLines(List ins) {
   Map DX = {'L': -1, 'R': 1, 'U': 0, 'D': 0};
   Map DY = {'L': 0, 'R': 0, 'U': 1, 'D': -1};
   Map ans = {};
-  
+
   int x = 0;
   int y = 0;
   int l = 0;
   ins.forEach((d) {
-      int dis = int.parse(d.substring(1));
-      String cmd = d[0];
-      
-      for (int i = 0; i < dis ; i++) {
-        x += DX[cmd];
-        y += DY[cmd];
-        l += 1;
-        ans["$x|$y"] = l;
-      }
+    int dis = int.parse(d.substring(1));
+    String cmd = d[0];
+
+    for (int i = 0; i < dis; i++) {
+      x += DX[cmd];
+      y += DY[cmd];
+      l += 1;
+      ans["$x|$y"] = l;
+    }
   });
 
   return ans;
@@ -28,17 +28,17 @@ Map getLines(List ins) {
 
 void main() async {
   var wires = new List<List<String>>();
-  
+
   await File('day3.input')
-  .openRead()
-  .transform(utf8.decoder)
-  .transform(new LineSplitter())
-  .forEach((String l) {
-      List cmds = new List<String>();
-      l.split(",").forEach((String c) {
-          cmds.add(c);
-      });
-      wires.add(cmds);
+      .openRead()
+      .transform(utf8.decoder)
+      .transform(new LineSplitter())
+      .forEach((String l) {
+    List cmds = new List<String>();
+    l.split(",").forEach((String c) {
+      cmds.add(c);
+    });
+    wires.add(cmds);
   });
 
   Map a = getLines(wires[0]);
@@ -46,14 +46,14 @@ void main() async {
 
   var mh_dists = new List<int>();
   var sh_dists = new List<int>();
-  
-  a.forEach((k, v) {      
-      if (b.containsKey(k)) {
-        List parts = k.split('|').map((String s) => int.parse(s).abs()).toList();
-        
-        mh_dists.add(parts[0] + parts[1]);
-        sh_dists.add(a[k] + b[k]);
-      }
+
+  a.forEach((k, v) {
+    if (b.containsKey(k)) {
+      List parts = k.split('|').map((String s) => int.parse(s).abs()).toList();
+
+      mh_dists.add(parts[0] + parts[1]);
+      sh_dists.add(a[k] + b[k]);
+    }
   });
 
   int mh_dist = mh_dists.reduce(min);
