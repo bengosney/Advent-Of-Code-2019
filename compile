@@ -2,11 +2,26 @@
 
 BASEPATH=$(dirname "${0}" | xargs realpath)
 BINPATH="${BASEPATH}/bin"
+STATUSPATH="${BINPATH}/.status"
 
 mkdir -p "${BINPATH}"
-
+cd "${BASEPATH}"
 for F in *.dart; do
-    dartanalyzer "${F}"
-    dartfmt --fix -w "${F}"    
-    dart2native "${F}" -o "${BINPATH}/${F}"
+    HASH=$(sha512sum "${F}")
+    grep "${HASH}" "${STATUSPATH}" 2>&1 > /dev/null
+    H="${?}"
+
+    if [[ "${H}" -ne 0 ]]; then
+	HASH=$(sha512sum "${F}")
+	dartanalyzer "${F}"
+	dartfmt --fix -w "${F}"
+    else
+	echo "${F} unchanged, skipping"
+    fi
+    if [[ ! -f "${BINPATH}/${F}" ]] || [[ "${H}" -ne 0 ]]; then
+	dart2native "${F}" -o "${BINPATH}/${F}"
+    fi
+
+    sed -i "/.*${F}/d" "${STATUSPATH}"
+    echo "${HASH}" >> "${STATUSPATH}"
 done
