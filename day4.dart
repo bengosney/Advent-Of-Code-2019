@@ -1,8 +1,3 @@
-import 'dart:async';
-import 'dart:io';
-import 'dart:convert';
-import 'dart:math';
-
 bool hasConsec(String code) {
   RegExp regExp = new RegExp(r"(\d)\1");
 
@@ -11,7 +6,6 @@ bool hasConsec(String code) {
 
 bool hasConsec2(String code) {
   RegExp regExp = new RegExp(r"(\d)\1+");
-  bool ret = false;
 
   return regExp
       .allMatches(code)
