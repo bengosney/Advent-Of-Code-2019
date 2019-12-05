@@ -1,0 +1,12 @@
+#!/bin/bash
+
+BASEPATH=$(dirname "${0}" | xargs realpath)
+BINPATH="${BASEPATH}/bin"
+
+mkdir -p "${BINPATH}"
+
+for F in *.dart; do
+    dartanalyzer "${F}"
+    dartfmt --fix -w "${F}"    
+    dart2native "${F}" -o "${BINPATH}/${F}"
+done
