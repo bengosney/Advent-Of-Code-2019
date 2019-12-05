@@ -2,18 +2,19 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 
-void printd(String p) {
-  print(p);
+void printd(String p) {  
+  //print(p);
 }
 
-List<int> run(ins, int input) {
+int run(ins, int input) {
   int opcode = 0;
   int pos = 0;
 
-  List<int> output = [];
+  int output;
+  List<int> args;
 
-  var getPos = (o, p) {
-    switch (p[o]) {
+  var getPos = (o) {
+    switch (args[o]) {
       case 0: {
         printd("getPos Mode0 ${pos+o} ${ins[pos + o]}");
         return ins[pos + o];
@@ -24,16 +25,16 @@ List<int> run(ins, int input) {
       }
     }
 
-    throw new Exception("Unsupported param mode ${p}");
+    throw new Exception("Unsupported param mode ${args[o]}");
   };
-  var getVal = (o, p) {
-    printd("getVal ${p} - ${ins[getPos(o, p)]}");
-    return ins[getPos(o, p)];
+  var getVal = (o) {
+    printd("getVal ${ins[getPos(o)]}");
+    return ins[getPos(o)];
   };
-  var setVal = (o, v, p) {
-    int pos = getPos(o, p);
+  var setVal = (o, v) {
+    int pos = getPos(o);
     printd("setVal ${v} into ${pos}");
-    ins[getPos(o, p)] = v;
+    ins[getPos(o)] = v;
   };
   var parseOpcode = (o) {
     String os = "${o}".padLeft(5, '0');
@@ -49,42 +50,42 @@ List<int> run(ins, int input) {
   };
 
   while (opcode != 99) {
-    List<int> args = parseOpcode(ins[pos]);
+    args = parseOpcode(ins[pos]);
     opcode = args[0];
 
     printd("\nOpcode ${ins[pos]} p:${pos} op:${opcode} ${args}");
     switch (opcode) {
       case 1: {      
-        setVal(3, getVal(1, args) + getVal(2, args), args);
+        setVal(3, getVal(1) + getVal(2));
         pos += 4;
         break;
       }
       case 2: {
-        setVal(3, getVal(1, args) * getVal(2, args), args);
+        setVal(3, getVal(1) * getVal(2));
         pos += 4;
         break;
       }
       case 3: {
-        setVal(1, input, args);
+        setVal(1, input);
         pos += 2;
         break;
       }
       case 4: {
-        output.add(getVal(1, args));
+        output = getVal(1);
         pos += 2;
         break;
       }
       case 5: {
-        if (getVal(1, args) > 0) {
-          pos = getVal(2, args);
+        if (getVal(1) > 0) {
+          pos = getVal(2);
         } else {
           pos += 3;
         }
         break;
       }
       case 6: {
-        if (getVal(1, args) == 0) {
-          pos = getVal(2, args);
+        if (getVal(1) == 0) {
+          pos = getVal(2);
         } else {
           pos += 3;
         }
@@ -92,21 +93,24 @@ List<int> run(ins, int input) {
       }
       case 7: {
         int v = 0;
-        if (getVal(1, args) < getVal(2, args)) {
+        if (getVal(1) < getVal(2)) {
           v = 1;
         }
-        setVal(3, v, args);
+        setVal(3, v);
         pos += 4;
         break;
       }
       case 8: {
         int v = 0;
-        if (getVal(1, args) == getVal(2, args)) {
+        if (getVal(1) == getVal(2)) {
           v = 1;
         }
-        setVal(3, v, args);
+        setVal(3, v);
         pos += 4;
         break;
+      }
+      default: {
+        throw new Exception("Unknown opcode: ${opcode}");
       }
     };
 
@@ -129,9 +133,9 @@ void main() async {
     ins.add(int.parse(l));
   });
 
-  List<int> p1 = run(List.from(ins), 1);
+  int p1 = run(List.from(ins), 1);
   print("Part 1: $p1");
   
-  List<int> p2 = run(List.from(ins), 5);
+  int p2 = run(List.from(ins), 5);
   print("Part 2: $p2");
 }
