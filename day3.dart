@@ -26,14 +26,14 @@ Map getLines(List ins) {
 }
 
 void main() async {
-  var wires = new List<List<String>>();
+  var wires = List<List<String>>();
 
   await File('day3.input')
       .openRead()
       .transform(utf8.decoder)
-      .transform(new LineSplitter())
+      .transform(LineSplitter())
       .forEach((String l) {
-    List cmds = new List<String>();
+    List cmds = List<String>();
     l.split(",").forEach((String c) {
       cmds.add(c);
     });
@@ -43,8 +43,8 @@ void main() async {
   Map a = getLines(wires[0]);
   Map b = getLines(wires[1]);
 
-  var mh_dists = new List<int>();
-  var sh_dists = new List<int>();
+  var mh_dists = List<int>();
+  var sh_dists = List<int>();
 
   a.forEach((k, v) {
     if (b.containsKey(k)) {

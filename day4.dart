@@ -1,11 +1,11 @@
 bool hasConsec(String code) {
-  RegExp regExp = new RegExp(r"(\d)\1");
+  RegExp regExp = RegExp(r"(\d)\1");
 
   return regExp.hasMatch(code);
 }
 
 bool hasConsec2(String code) {
-  RegExp regExp = new RegExp(r"(\d)\1+");
+  RegExp regExp = RegExp(r"(\d)\1+");
 
   return regExp
       .allMatches(code)

@@ -25,7 +25,7 @@ int run(ins, int input) {
         }
     }
 
-    throw new Exception("Unsupported param mode ${args[o]}");
+    throw Exception("Unsupported param mode ${args[o]}");
   };
   var getVal = (o) {
     printd("getVal ${ins[getPos(o)]}");
@@ -120,13 +120,13 @@ int run(ins, int input) {
         }
       default:
         {
-          throw new Exception("Unknown opcode: ${opcode}");
+          throw Exception("Unknown opcode: ${opcode}");
         }
     }
     ;
 
     if (pos > ins.length) {
-      throw new Exception('Position over length');
+      throw Exception('Position over length');
     }
 
     opcode = ins[pos];
@@ -136,7 +136,7 @@ int run(ins, int input) {
 }
 
 void main() async {
-  var ins = new List<int>();
+  var ins = List<int>();
 
   String raw = await File('day5.input').readAsString();
 

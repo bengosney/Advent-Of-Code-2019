@@ -35,7 +35,7 @@ int run(p1, p2, input) {
 }
 
 void main() async {
-  var input = new List<int>();
+  var input = List<int>();
 
   String raw = await File('day2.input').readAsString();
 

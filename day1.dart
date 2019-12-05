@@ -12,12 +12,12 @@ int fuelReq(int weight) {
 }
 
 void main() async {
-  var input = new List<int>();
+  var input = List<int>();
 
   await File('day1.input')
       .openRead()
       .transform(utf8.decoder)
-      .transform(new LineSplitter())
+      .transform(LineSplitter())
       .forEach((String l) {
     input.add(int.parse(l));
   });
