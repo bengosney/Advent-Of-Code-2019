@@ -2,8 +2,8 @@ import 'dart:io';
 import 'dart:convert';
 
 void main() async {
-  Map objects = {};
-  Map objects2 = {};
+  Map<String, List<String>> objects = {};
+  Map<String, String> objects2 = {};
 
   int sumLinks(String of, int level) {
     int total = level;
@@ -15,7 +15,7 @@ void main() async {
     return total;
   }
 
-  List<String> walkParents(String start) {
+  List<String> getParents(String start) {
     List<String> o = List<String>();
     String c = objects2[start];
 
@@ -42,8 +42,8 @@ void main() async {
 
   int total = sumLinks('COM', 0);
   print("Part 1: ${total}");
-  List<String> you = walkParents('YOU');
-  List<String> san = walkParents('SAN');
+  List<String> you = getParents('YOU');
+  List<String> san = getParents('SAN');
 
   int you_c = 0;
   you.forEach((i) {
