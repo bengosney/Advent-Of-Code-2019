@@ -2,8 +2,6 @@ import 'dart:io';
 import 'dart:convert';
 
 void main() async {
-  List<int> input = List<int>();
-
   Map objects = {};
   Map objects2 = {};
 
@@ -24,11 +22,10 @@ void main() async {
     do {
       o.add(c);
       c = objects2[c];
-    } while(c != 'COM');
+    } while (c != 'COM');
 
     return o;
   }
-  
 
   await File('day6.input')
       .openRead()
@@ -50,19 +47,19 @@ void main() async {
 
   int you_c = 0;
   you.forEach((i) {
-      if (!san.contains(i)) {
-        you_c++;
-      }
+    if (!san.contains(i)) {
+      you_c++;
+    }
   });
 
   int san_c = 0;
   san.forEach((i) {
-      if (!you.contains(i)) {
-        san_c++;
-      }
+    if (!you.contains(i)) {
+      san_c++;
+    }
   });
 
   int hops = you_c + san_c;
-  
+
   print("Part 2: $hops");
 }
