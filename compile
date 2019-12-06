@@ -11,6 +11,8 @@ for F in *.dart; do
     grep "${HASH}" "${STATUSPATH}" 2>&1 > /dev/null
     H="${?}"
 
+    BINNAME="${BINPATH}/${F/.dart/}"
+
     if [[ "${H}" -ne 0 ]]; then
 	HASH=$(sha512sum "${F}")
 	dartanalyzer "${F}"
@@ -18,8 +20,8 @@ for F in *.dart; do
     else
 	echo "${F} unchanged, skipping"
     fi
-    if [[ ! -f "${BINPATH}/${F}" ]] || [[ "${H}" -ne 0 ]]; then
-	dart2native "${F}" -o "${BINPATH}/${F}"
+    if [[ ! -f "${BINNAME}" ]] || [[ "${H}" -ne 0 ]]; then
+	dart2native "${F}" -o "${BINNAME}"
     fi
 
     sed -i "/.*${F}/d" "${STATUSPATH}"
